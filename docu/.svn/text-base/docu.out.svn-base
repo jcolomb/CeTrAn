@@ -1,0 +1,22 @@
+\BOOKMARK [1][-]{section.1}{BuriTrack}{}
+\BOOKMARK [2][-]{subsection.1.1}{Installation}{section.1}
+\BOOKMARK [2][-]{subsection.1.2}{Compiling from source}{section.1}
+\BOOKMARK [3][-]{subsubsection.1.2.1}{Windows}{subsection.1.2}
+\BOOKMARK [3][-]{subsubsection.1.2.2}{OSX}{subsection.1.2}
+\BOOKMARK [3][-]{subsubsection.1.2.3}{Linux}{subsection.1.2}
+\BOOKMARK [2][-]{subsection.1.3}{Getting started}{section.1}
+\BOOKMARK [2][-]{subsection.1.4}{Troubleshooting}{section.1}
+\BOOKMARK [1][-]{section.2}{CeTrAn}{}
+\BOOKMARK [2][-]{subsection.2.1}{Installation}{section.2}
+\BOOKMARK [2][-]{subsection.2.2}{Getting started with data from Buritrack}{section.2}
+\BOOKMARK [2][-]{subsection.2.3}{CeTrAn with other data}{section.2}
+\BOOKMARK [2][-]{subsection.2.4}{Function list \(not exhaustive\)}{section.2}
+\BOOKMARK [3][-]{subsubsection.2.4.1}{Individual test}{subsection.2.4}
+\BOOKMARK [3][-]{subsubsection.2.4.2}{Speed}{subsection.2.4}
+\BOOKMARK [3][-]{subsubsection.2.4.3}{Stripe deviation}{subsection.2.4}
+\BOOKMARK [3][-]{subsubsection.2.4.4}{Activity}{subsection.2.4}
+\BOOKMARK [3][-]{subsubsection.2.4.5}{Turning angle}{subsection.2.4}
+\BOOKMARK [3][-]{subsubsection.2.4.6}{Calculation of the walks between the stripes}{subsection.2.4}
+\BOOKMARK [3][-]{subsubsection.2.4.7}{Transition plot}{subsection.2.4}
+\BOOKMARK [2][-]{subsection.2.5}{Troubleshooting}{section.2}
+\BOOKMARK [1][-]{section.3}{Buridan's assay}{}
