@@ -1,0 +1,145 @@
+
+<rgg>
+### RGG CODE ###
+################
+<h3 text="Trajectorie Analysis for Multiple Buridan Experiments - All together" aligment="center" span="5"/>
+<group>
+	<separator label="Description" span="5"/>
+	<label text="Creates some general statistical plots on multiple flies tracked in the Buridan Experiment. Includes speed, activity, distance and walks between the stripes, occupancy plots and activity time, pauses, as well as walking direction deviation from going to the stripe (histogram and mean of medians)"/> 
+	<gaprow height="3"/>
+</group>
+
+<checkbox label="input data from workspace (selected) or text file" var="g_fromRworksp" selected="t" />
+
+<group>
+	<textfield var="outputfile"  label="name of output file" data-type="text"
+default-value =  "output" size="15"/>
+	<separator label="Input" span="5"/>
+			<label text="Choose the input directory containing the input files:" span="5"/>
+		<filechooser var="g_inputdir" label="Input Directory" fileselection-mode="directories-only"/>
+			<label text="either csv file of the metadata:" span="5"/>
+		<matrix var="g_filetable" span="5"/>
+
+			<label text=" or R workspace:" span="5"/>
+		<matrix var="g_workspace" span="5"/>
+
+		
+	<separator label="Output" span="5"/>
+		<filechooser var="g_outputdir" label="Output Directory" fileselection-mode="directories-only"/>
+		<hbox><label/><label text="leave blank for default output dir 'output'."/></hbox>	
+		<checkbox label="Open plot in default pdf-viewer" var="g_open_pdf" selected="f" span="2"/>
+</group>
+
+
+
+
+<group>	
+	<separator label="treshold for movt*10" span="5" />
+		<hbox>
+		<label text="treshold set to (let this to 0 for exporting the data)"/>
+		<slider var="g_treshold" min="0"  max="20"
+			default-value="0" paint-ticks="true" paint-labels="true"
+			paint-value="true" major-tick-spacing="20"  minor-tick-spacing="5"/>
+		<label text=" /10 in arbitrary values"/>
+		</hbox>
+</group>
+
+<group>	
+<separator label="Input values" span="5"/>	
+
+<hbox>
+	<textfield var="EXPERIMENTID"  label="name of the experiment" data-type="text" default-value =  "fly_" size="15"/>
+	<textfield var="animal"  label="animal species" data-type="text" default-value =  "drosophila_adult" size="15"/>
+	<textfield var="arena_type"  label="type of arena" data-type="text" default-value =  "round_arena" size="15"/>
+	<textfield var="stimuli " label="type of stimulus" data-type="text" default-value =  "visual" size="15"/>
+	<textfield var="frequence_of_paint"  label="recording frequence" data-type="text" default-value =  "var.~20Hz" size="15"/>
+</hbox>	
+<hbox>
+<checkbox label="set the following variable manually?" var="g_manual" selected="f" />
+	<textfield var="arena_size"  label="platform diameter/size" data-type="numeric" default-value =  "117" size="15"/>
+	<textfield var="light_source"  label="distance to the light source [mm]" data-type="numeric" default-value =  "146.5" size="15"/>
+	<textfield var="stimuli_type" label="size of the stripes[deg] " data-type="numeric" default-value =  "11" size="15"/>
+	<textfield var="recording_length" label="length of the experiment [s]" data-type="numeric" default-value =  "900" size="15"/>
+	
+</hbox>	
+</group>
+
+
+### R CODE ###
+##############
+setwd(rgghome)
+
+
+
+source("functions/include.r")
+source ("scripts/exp-import/newfct.R")
+
+
+#check if input is ok
+if (is.na(g_inputdir)||is.na(g_filetable))
+	stop("No input files specified.")
+
+if (ncol(g_filetable)!=2)
+	stop("Input matrix has a wrong format")
+
+# determine path
+datapath = g_inputdir
+
+# set output dir
+outputpath = ""
+if (!is.na(g_outputdir)) {
+	outputpath = g_outputdir
+} else {
+	outputpath = paste(c(datapath,"/output/"),collapse="")	
+}
+
+#load fly data
+if (g_fromRworksp){ load(g_workspace) 
+}else{
+	fileName = g_filetable[,1]
+	group = g_filetable[,2]
+
+# takes fileName, datapath and group
+	source("scripts/exp-import/trajFilesLoader.r")
+# "traj" contains the trajectories, "env[[i]]" the area informations
+# "params[[i]]" the Experiment Parameters and Informations
+# id_table the animals and corresponding groups
+}
+# print trajectorie information
+#print(traj)
+
+# get group and individum information
+group_ids = levels(factor(group))
+
+### compute and plot data
+
+
+suppressWarnings(dir.create(outputpath))
+
+
+###########
+#########
+
+setwd(outputpath)
+message(paste(c("Writing output to ",outputpath),collapse=""))
+
+
+# write to
+bla = paste(c(outputfile,"t",g_treshold,"Pt",".pdf"),collapse="")
+
+
+
+setwd(rgghome)
+source ("scripts/exp-import/export_trajectories.r")
+
+
+
+
+
+
+
+
+
+
+
+</rgg>

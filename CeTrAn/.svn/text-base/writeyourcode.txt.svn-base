@@ -1,0 +1,91 @@
+This is a special file aiming at helping people to modify and extend the trajectory analysis freeware.  
+(sorry for the pagination, I had no time yet to move to latex)
+
+Mistakes, amelioration, your own tricks :
+Feel free to send feedback on the sourceforge page of the project at https://sourceforge.net/projects/buridan/forums/forum/995168/topic/4844897 (open discussion)
+
+
+
+1. RGG file
+
+You can open the file with a simple text editor and modify it. Its structure is simple, the first part code for the interface (« RGG code »), the second part is a R code, which here is only calling for the R scripts. Once you have a new R code which work, you can simply add a command to run it here.
+
+I encourage you to use a conditional variable (first part) and a « if » loop (second part) as I did for the other code, such that future users can choose to run the code or not with a simple click. If input  variable (threshold values, axis size variables, ...), you can use the interface to have these variables asked in the interface (don't forget to give a default value).
+
+
+example
+rgg code :
+<checkbox label="general" var="g_general" selected="t" />
+
+draw a checkbox labelled « general », turn the variable « g_general » to true if the checkbox is selected. There is no default value here, it just keep the value it had in the last time you used it.
+
+Rcode :
+
+if (g_general) { 
+	source ("scripts/general.r")}
+simple if loop : g_general is read (true if the checkbox is selected in the interface, see above). If it is true, the program run the « script general.r ».
+
+NB : the folder of work as to be selected, the function « setwd(rgghome) » is used before
+
+2. writing new R code
+
+Here is a list of tricks which may help you to write your code.
+Although, one can work on a code and run it via the RGG, this is not the most effective way to work (the debug is then difficult). Better is to load data on your R console, load the packages, and work on your code
+2.1 How to start
+A. Load packages.
+
+All packages used are in the include.r file. You have to set the directory of work as follows :
+setwd(rgghome) 
+source("functions/include.r") # will include the packages used
+setwd(outputpath) # set the working directory to the output folder again.
+
+A. testing your code.
+
+It is easier to work on a code with working with a trajectory. The best is to open one of the output.r files you have (or that you can produce by running the actual analysis software on some data). At first, you may want to test it on only one trajectory data, just set it by typing :
+traj=traj[1]
+in the R console
+
+B. including new packages
+
+You can in a first phase include new packages in your R code. Once your code is working and you want to install it, I will encourage you to load it via the include.r code. Please do not forget to update the installation/install.r file, such that new users will have no problems with your code. (add the package in the list of packages to be installed).
+
+2.2 Tricks
+
+A. working directory
+
+In order to avoid any problem, set the working directory you need to have for your code. At the end of the code, you need to set it to the rgghome, such that the RGG may call for the next algorithm. (when finishing your code, the next line in rgg will be read, which will certainly be another « source » function which need the directory to be set to rgghome.
+Other directory are :
+rgg home = Folder where the RGG file is located
+ouputpath = established by a variable in the interface, the folder where your outputs are written.  
+
+B. working with multiple trajectories : the loop structure
+
+Once your code is working for one trajectory, one has to make it work for multiple ones.
+The basic structure we used here is to look at each fly name in the id_table, then run the algorithm on all trajectory corresponding to this fly (each burst of activity correspond to one traj element) and return a value (the values are entered in a list that have to be previously created). Then we go to the next fly. 
+Sometimes, we also used a function to run the algorithm on all trajectory corresponding to one fly. (see example)
+
+To ease the debug, the message function will return some text in the RGG output.
+Do not forget to initiate and create the list of result before the loop.
+
+Example : 
+-------
+message("starting general.r") # for the debug in RGG
+
+### speed boxplot	
+average_speeds = c() # initiate (and create) the list of results that will be obtained (is necessary)
+
+#compute speeds for each individum
+for (i in c(1:nrow(id_table))) { #loop going from the first to the last fly as wrote in the id_table
+	speeds = c.speeds(traj[id(traj)==id_table$id[i]])$speed_det # run c.speeds on the trajectories that have as id, the name coming from the id_table at position i, take the value speed_det on the data frame returned by the function
+	speeds = speeds[speeds>0]
+	speeds = speeds[!speeds>50]
+	average_speeds = c(average_speeds,median(speeds,na.rm=TRUE)) # return the value for this fly: the median of the speeds obtained
+}
+
+speed_table = data.frame(speeds=average_speeds,group=id_table$group) # write a specific result table with data and fly group
+f_table = data.frame(f_table,speeds=average_speeds) # enter the new value in f_table, which already contain the other values (and the name/group) for each fly
+
+
+
+
+

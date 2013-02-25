@@ -1,0 +1,223 @@
+
+<rgg>
+### RGG CODE ###
+################
+<h3 text="Trajectorie Analysis for Multiple Buridan Experiments - All together" aligment="center" span="5"/>
+<group>
+	<separator label="Description" span="5"/>
+	<label text="Creates some general statistical plots on multiple flies tracked in the Buridan Experiment. Includes speed, activity, distance and walks between the stripes, occupancy plots and activity time, pauses, as well as walking direction deviation from going to the stripe (histogram and mean of medians)"/> 
+	<gaprow height="3"/>
+</group>
+
+<group>
+	<textfield var="outputfile"  label="name of output file" data-type="text"
+default-value =  "output" size="15"/>
+	<separator label="Input" span="5"/>
+		<label text="Choose the input directory containing all the xml and data files:" span="5"/>
+		<filechooser var="g_inputdir" label="Input Directory" fileselection-mode="directories-only"/>
+		<label text="The first column of the matrix contains the xml filenames, the second column the group of flies it belongs to:" span="5"/>
+		<matrix var="g_filetable" span="5"/>
+		<label text="Optionaly you can select a tab seperated file containing the matrix" span="5"/>
+	<separator label="Output" span="5"/>
+		<filechooser var="g_outputdir" label="Output Directory" fileselection-mode="directories-only"/>
+		<hbox><label/><label text="leave blank for default output dir 'output'."/></hbox>	
+		<checkbox label="Open plot in default pdf-viewer" var="g_open_pdf" selected="f" span="2"/>
+</group>
+<gaprow height="3"/>
+<group>	
+	<separator label="Options" span="5"/>
+		<hbox>
+		<label text="Min duration for pause (*dt), and of activities in (*0.4s)"/>
+		<slider var="g_duration_slider" min="0"  max="20"
+			default-value="10" paint-ticks="true" paint-labels="true"
+			paint-value="true" major-tick-spacing="20"  minor-tick-spacing="10"/>
+		<label text=" 1/10 s"/>
+		</hbox>
+</group>
+<gaprow height="3"/>
+<group>	
+	<separator label="Options for histograms" span="5"/>
+	
+		<hbox>
+		<label text="Bin size"/>
+		<slider var="g_bin_size" min="0"  max="20"
+			default-value="1" paint-ticks="true" paint-labels="true"
+			paint-value="true" major-tick-spacing="5"  minor-tick-spacing="1"/>
+		<label text="0 = 0.5 in s"/>
+		</hbox>
+</group>
+
+<gaprow height="3"/>
+<group>	
+	<separator label="Options for occupancy plot" span="5"/>	
+	<checkbox label="Supress paints, if the fly is not moving" var="g_supress_paints" selected="t" span="2"/>
+</group>
+
+<gaprow height="3"/>
+<group>	
+	<separator label="treshold for movt*10" span="5"/>
+		<hbox>
+		<label text="treshold set to"/>
+		<slider var="g_treshold" min="0"  max="20"
+			default-value="8" paint-ticks="true" paint-labels="true"
+			paint-value="true" major-tick-spacing="20"  minor-tick-spacing="5"/>
+		<label text=" /10 in arbitrary values"/>
+		</hbox>
+</group>
+<group>	
+
+	<separator label="analysis done:" span="5"/>	
+	<hbox>
+		<checkbox label="general" var="g_general" selected="t" />
+		<checkbox label="activity" var="g_activity" selected="t" />
+		<checkbox label="straightness" var="g_straight" selected="t" />
+		<checkbox label="activity_martin" var="g_actmartin" selected="t" />
+	</hbox><hbox>
+	<checkbox label="occupancy" var="g_occupancy" selected="t" />
+	<checkbox label="angle deviation" var="g_angledev" selected="t" />
+	<checkbox label="output text files" var="g_outputtext" selected="t" />
+	<checkbox label="activitylog" var="g_log" selected="t" />
+	</hbox><hbox>
+	<checkbox label="thigmotaxis" var="g_thigmo" selected="t" />
+	<checkbox label="PCA" var="g_pca" selected="t" />
+	<checkbox label="do individual analyses (other pdf file)" var="g_individual" selected="t" />
+	<checkbox label="5min only ?" var="g_5min_only" selected="t" />
+	</hbox>
+</group>
+<group>	
+<separator label="value of the y axes" span="5"/>	
+<hbox>
+	<textfield var = "ylim_speed" label ="speed" data-type ="numeric" default-value = "17" />
+	<textfield var = "ylim_walkdist" label ="walkdist" data-type ="numeric" default-value = "6000" />
+	<textfield var = "ylim_walks" label ="walks" data-type ="numeric" default-value = "25" />
+	<textfield var = "ylim_angledev" label ="angledev" data-type ="numeric" default-value = "50" />
+</hbox>	
+<hbox>
+	<textfield var = "ylim_acttime" label ="pausetime" data-type ="numeric" default-value = "600" />
+	<textfield var = "ylim_meanact" label ="meanact" data-type ="numeric" default-value = "4" />
+	<textfield var = "ylim_pauses" label ="pauses" data-type ="numeric" default-value = "140" />
+	<textfield var = "ylim_pausetime" label ="pausetime" data-type ="numeric" default-value = "5" />
+</hbox>	
+
+</group>
+
+
+
+
+### R CODE ###
+##############
+setwd(rgghome)
+
+
+# load libs and functions
+source("functions/include.r")
+
+#check if input is ok
+if (is.na(g_inputdir)||is.na(g_filetable))
+	stop("No input files specified.")
+
+if (ncol(g_filetable)!=2)
+	stop("Input matrix has a wrong format")
+
+# determine path
+datapath = g_inputdir
+
+# set output dir
+outputpath = ""
+if (!is.na(g_outputdir)) {
+	outputpath = g_outputdir
+} else {
+	outputpath = paste(c(datapath,"/output/"),collapse="")	
+}
+#load fly data
+fileName = g_filetable[,1]
+group = g_filetable[,2]
+
+# takes fileName, datapath and group
+
+source("scripts/MultipleFilesLoader.r")
+# "traj" contains the trajectories, "env[[i]]" the area informations
+# "params[[i]]" the Experiment Parameters and Informations
+# id_table the animals and corresponding groups
+
+# print trajectorie information
+print(group)
+
+# get group and individum information
+group_ids = levels(factor(group))
+
+### compute and plot data
+
+
+suppressWarnings(dir.create(outputpath))
+
+
+###########
+#########
+
+setwd(outputpath)
+message(paste(c("Writing output to ",outputpath),collapse=""))
+
+
+# write to
+bla = paste(c(outputfile,"t",g_treshold,"Pt",g_duration_slider,".pdf"),collapse="")
+pdf(bla)
+
+
+setwd(rgghome)
+source ("scripts/samplesize.r")
+if (g_general) {
+	source ("scripts/general.r")}
+
+if (g_straight) {
+	source ("scripts/straightness.r")}
+if (g_occupancy) {
+	source ("scripts/occupancy.r")}
+if (g_thigmo) {
+	source ("scripts/thigmotaxis.r")}
+
+
+if (g_angledev) {
+	source ("scripts/angledev.r")}
+
+if (g_actmartin) {
+	source ("scripts/activity_martin.r")}
+if (g_log) {
+	source ("scripts/activity_log.r")}
+if (g_activity) {
+	source ("scripts/activity.r")}
+
+if (g_pca) {source ("scripts/pca.r")
+	}
+
+
+
+
+	
+# close write
+g = dev.off()
+
+if (g_individual) {
+	source ("scripts/singleflyoutputs.r")}
+
+source ("scripts/saveworkspace.r")
+
+
+
+
+# open pdf
+setwd(outputpath)
+plot_path = paste(c(getwd(),"/",bla),collapse="")
+if (g_open_pdf) {
+	if (.Platform$OS.type=="Linux")
+		system(paste(c("gnome-open",plot_path),collapse=" "))
+	else
+		system(paste(c("open",plot_path),collapse=" "))
+}
+
+
+
+
+
+
+</rgg>
