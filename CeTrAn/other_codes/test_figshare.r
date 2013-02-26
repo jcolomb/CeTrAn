@@ -35,15 +35,16 @@ id_metadata_trajectory =153932
 id_metadata_experiments =153933
 
 
-##########read from input
-Temporaryfolder="T:"
+##########read from input in RGG (not yet written, this part of the code will be erased once the rgg is written)
+Temporaryfolder="/Users/choupi/Documents/temp"
 downmetadata = c()
 downmetaEXPdata = c()
 
 author= "julien colomb" 
 
-ExperimentID = "Colomb_01"
-datagroup = "D:/dokumente/data/buridan/corrected_data/groups_wt_11d.txt"
+ExperimentID = "Colomb_test"
+datagroup = "/Users/choupi/CeTrAn/example_data/groupscs.txt"  ##to change for your computer!
+datagroupfile= "/Users/choupi/CeTrAn/example_data/"
 
   # animal_ID
 species ="Drosophila melanogaster"
@@ -79,8 +80,9 @@ o2size_Z = 313
 o2position_X = 0
 o2position_Y = -293
 
-changingvariable = "genotype"
-###input for modification of the raw data
+changingvariable = "number_object" # variable changing in this particular experiment, need to check how to do it for multiple variable change.
+
+#input for modification of the raw data, used for data not coming from buritrack (not tested yet)
 
 timecol = 1
 timecoef = 1000
@@ -99,7 +101,7 @@ center= c(100.24, 100.417) #inversed also
  
 
   
-####
+#### start of the code that will be used. The metadata may not be complete, still waiting on feedbacks from other users)
 metadataname= c("ExperimentID",
                 "species", 
                 "gender",
@@ -161,23 +163,24 @@ metadata= c(ExperimentID,
             o2position_X,
             o2position_Y)
 
-# read from group file
+# read from group file (=metadata written by hand, either c(xml file path,group name), or c(data file path, group, timecode in iso)
 ClassX = class(metadata[metadataname == changingvariable])
 
-group=data.frame(
-  datapath = "T:test.txt" ,
-group = "CS JC",
-time = "1970-01-01 00:00:00"
- )
-group <- read.delim(datagroup, header=F)
-                    
-####
 
-
-if (ncol(group)<3){
-  ## this is the code for buritrack data
-  group <- read.delim(datagroup, header=F, colClasses=c("character",ClassX), col.names=c("datapath","group"))
+ # test file will be added soon
  
+
+
+  
+  group <- read.delim(datagroup, header=F, colClasses=c("character",ClassX), col.names=c("datapath","group"))
+  
+## special change if changes in the group file has to be done --- need to be done differently, a priori?
+group[,2]=as.factor(group[,2]) 
+levels (group[,2]) = list("0"="no_stripe", "2"="stripes")
+group[,2]=as.character(group[,2]) 
+### end special change
+  if (ncol(group)<3){
+  ## this is the code for buritrack data#
   
   ##
   
@@ -190,7 +193,7 @@ if (ncol(group)<3){
   metadata[metadataname == changingvariable] = group$group[i]
   
   ### load xml file and change metadata
-  params <- list(load.buridan.xml(paste("D:/dokumente/data/buridan/corrected_data/",group$datapath[i], sep="")))
+  params <- list(load.buridan.xml(paste(datagroupfile,group$datapath[i], sep="")))
   env <- lapply(params, create.env.vars.center)
   
     date_of_exp = as.character(ISOdatetime(1970,1,1,0,0,0) + as.numeric(params[[1]]$TIMESTAMP))
@@ -209,7 +212,7 @@ if (ncol(group)<3){
   WD=getwd()
   setwd(Temporaryfolder)
   write.csv (traj, file = Namecsv, row.names=FALSE)
-  fs_upload(id_data,Namecsv)
+  
   output_csv= rbind(output_csv, metadata)
   setwd(WD)
   }
@@ -219,15 +222,28 @@ colnames(output_csv)= metadataname
 setwd(Temporaryfolder)
  
 write.csv(rbind (downmetadata,output_csv), file = "metadata_trajectory.csv", row.names = F)
-fs_upload(id_metadata_trajectory,"metadata_trajectory.csv")  
+
           
 MET=  data.frame(metadata[metadataname == "ExperimentID"],changingvariable, author ) 
   colnames(MET)= c("experimentID", "changing variable", "author of the experiment")
 write.csv(rbind (downmetaEXPdata,MET), file = "metadata_EXP_trajectory.csv", row.names = F)
-fs_upload(id_metadata_experiments,"metadata_EXP_trajectory.csv")               
+           
               
               
 }
+#### here is the code for figshare. need to be done: make new articles (if necessary), get the metadata file to write on them and upload the new version, seems the ids are wrong...
+
+id_data = 98195
+id_metadata_trajectory =153932
+id_metadata_experiments =153933
+
+ for(i in c(1:nrow(group))){
+  Namecsv=paste(metadata[metadataname == "ExperimentID"],"-",99+i,".csv", sep="")
+  fs_upload(id_data,Namecsv)
+  }
+fs_upload(id_metadata_trajectory,"metadata_trajectory.csv")
+fs_upload(id_metadata_experiments,"metadata_EXP_trajectory.csv")    
+
 
 #### to do
 if (ncol(group)==3){

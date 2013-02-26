@@ -1,5 +1,6 @@
 #loads the libraries
 #setwd("C:/Users/colomb/Desktop/buridan_onsvn/CeTrAn/")
+# setwd("/Users/choupi/CeTrAn/CeTrAn/")
 res <- suppressMessages(
 	c(require("adehabitatLT"),#require("adehabitat"),
 	require("XML"),
