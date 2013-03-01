@@ -1,0 +1,15 @@
+{
+    "contents" : "require(rfigshare)\n\n#need group, metadata, Temporaryfolder, authors\nauthors= c(\"97229\")\n\n#cetran account\n#login: thrawny@sourceforge.net\n#pass: buridan\n\noptions(FigshareKey = \"CT6SBJy8WkkGiQjhFdBBxw\")\noptions(FigsharePrivateKey = \"Ytfb4rBWwFv44eXzrzImWQ\")\noptions(FigshareToken = \"KbrzaL7fgOWEdB4RmQ4LQA084gYzMmCpNdKJGxsSTH6QKbrzaL7fgOWEdX4RmQ4LQA\")\noptions(FigsharePrivateToken = \"Uv7jjeyPByTRKXg5BM6rnw\")\n\nid_data = 98195\nid_metadata_trajectory =153932\nid_metadata_experiments =153933\n\n\n#### here is the code for figshare. need to be done: make new articles (if necessary), get the metadata file to write on them and upload the new version, seems the ids are wrong...\n\n\n for(i in c(1:nrow(group))){\n  Namecsv=paste(metadata[metadataname == \"ExperimentID\"],\"-\",99+i,\".csv\", sep=\"\")\n  fs_upload(id_data,Namecsv)\n  }\nfs_upload(id_metadata_trajectory,\"metadata_trajectory.csv\")\nfs_upload(id_metadata_experiments,\"metadata_EXP_trajectory.csv\")    \n# code to be written:\n#### add author to the article\nfs_add_authors(id_data, authors)\nfs_add_authors(id_metadata_trajectory, authors)\nfs_add_authors(id_metadata_experiments, authors)\n\n### figshare article creation/modification\n# \n#   fs_browse(id_data)\n# article_categories= \"Neuroscience\"\n# \n# id <- fs_new_article(title = \"raw trajectory data\", description = \"format is time (in ms), x position (in mm), y position (in mm), burst (increase while the experiment is stopped and started again with the same animal). Information about the experiment is found in the metadata.\", \n#                      type = \"fileset\", tags = c(\"trajectory\", \"open science\", \"semanticweb\", \"test\"), categories=article_categories ,\n#                      \n#                      visibility= \"draft\", \n#                      links=\"buridan.sourceforge.net\")\n# id_data <- id\n# id <- fs_new_article(title = \"trajectory metadata\", description = \"Data to be found in the data fileset\", \n#                      type = \"dataset\", tags = c(\"trajectory\", \"open science\", \"semanticweb\", \"test\"), categories=article_categories ,\n#                      \n#                      visibility= \"draft\", \n#                      links=\"buridan.sourceforge.net\")\n# \n# id <- fs_new_article(title = \"trajectory experiment metadata\", description = \"Experiment got their metadata: who, when, what was tested\", \n#                      type = \"dataset\", tags = c(\"trajectory\", \"open science\", \"semanticweb\", \"test\"), categories=article_categories ,\n#                      \n#                      visibility= \"draft\", \n#                      links=\"buridan.sourceforge.net\")",
+    "created" : 1362140216233.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3485184912",
+    "id" : "655A7BD6",
+    "lastKnownWriteTime" : 1362141361,
+    "path" : "D:/dokumente/GitHub/CeTrAn/CeTrAn/other_codes/figshareexport/only_figshare_code.r",
+    "properties" : {
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}
