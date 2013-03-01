@@ -1,4 +1,6 @@
 require(rfigshare)
+## to do:
+# implementation for multiple authors: have them separate for figshare, together for the experiment metadata (if csv, what about xml or RDF?)
 
 load.buridan.data.export <- function(params,id_prefix=NA,center=FALSE) {
   
@@ -54,7 +56,7 @@ genotype = "Wtb"
 treatment = "none"
 
   #arena_ID
-arena_name = "buridan 5° brembs"
+arena_name = "buridan 5? brembs"
 arena_form = "round"
 arena_size1 = 117
 arena_size2 = "none"
