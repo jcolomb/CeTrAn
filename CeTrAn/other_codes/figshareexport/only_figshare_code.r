@@ -1,7 +1,8 @@
 require(rfigshare)
 
-#need group, metadata, Temporaryfolder, authors
-authors= c("97229")
+#need ExperimentID, group, metadata, Temporaryfolder, authors from previous code
+#authors= c("97229")
+#ExperimentID ="Colomb_01"
 
 #cetran account
 #login: thrawny@sourceforge.net
@@ -12,9 +13,9 @@ options(FigsharePrivateKey = "Ytfb4rBWwFv44eXzrzImWQ")
 options(FigshareToken = "KbrzaL7fgOWEdB4RmQ4LQA084gYzMmCpNdKJGxsSTH6QKbrzaL7fgOWEdX4RmQ4LQA")
 options(FigsharePrivateToken = "Uv7jjeyPByTRKXg5BM6rnw")
 
-id_data = 98195
-id_metadata_trajectory =153932
-id_metadata_experiments =153933
+id_data = 153938
+id_metadata_trajectory =153939
+id_metadata_experiments =153940
 
 
 #### here is the code for figshare. need to be done: make new articles (if necessary), get the metadata file to write on them and upload the new version, seems the ids are wrong...
@@ -26,12 +27,35 @@ id_metadata_experiments =153933
   }
 fs_upload(id_metadata_trajectory,"metadata_trajectory.csv")
 fs_upload(id_metadata_experiments,"metadata_EXP_trajectory.csv")    
-# code to be written:
-#### add author to the article
-fs_add_authors(id_data, authors)
-fs_add_authors(id_metadata_trajectory, authors)
-fs_add_authors(id_metadata_experiments, authors)
 
+#### add author to the article
+if (!is.na (authors)){
+  fs_add_authors(id_data, authors)
+  fs_add_authors(id_metadata_trajectory, authors)
+  fs_add_authors(id_metadata_experiments, authors)
+}
+
+
+# code to be written:
+
+# need to read the experiment metadata, check that the new experimentID was never entered before
+#if the ID was entered, ask if new experiment or new data for the experiment
+#1new experiment -> ask for a new ID
+#2new data -> ?? (I have to think about it: add only the new data and metadata, ...)
+# If new ID: change the metadata files and add raw data files
+
+IDME = fs_details(id_metadata_experiments)
+file = IDME$files[[1]]$download_url
+IDME_dat= read.csv (file, header= T)
+ExpID_list=IDME_dat[,1]
+ExpID_list
+class(ExpID_list)
+length(ExpID_list)
+T=0
+for (i in c(1,length(ExpID_list))){
+  if (ExperimentID == ExpID_list[i]) T=T+1
+}
+##old code
 ### figshare article creation/modification
 # 
 #   fs_browse(id_data)
