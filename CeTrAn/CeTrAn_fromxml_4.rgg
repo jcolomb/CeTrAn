@@ -199,6 +199,7 @@ source ("scripts/pdfoutput.r")
 if (g_occupancy) {
 	source ("scripts/occupancy.r")}
 
+source ("scripts/expand_f_table.r")
 source ("scripts/saveworkspace.r")
 
 if (g_pca) {source ("scripts/pca.r")
