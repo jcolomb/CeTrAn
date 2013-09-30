@@ -4,14 +4,15 @@
 
 
 message("starting samplesize.r")
+count= id_table[,c(1,2)]
 for (i in c(1:nrow(id_table))) {
-	id_table [i,3] = 1
+	count [i,3] = 1
 }
 
 
 
 
-n <- tapply(id_table[,3],id_table$group, sum, na.rm=T)
+n <- tapply(count[,3],count$group, sum, na.rm=T)
 n <- as.matrix (n)
 n <- t(n)
 

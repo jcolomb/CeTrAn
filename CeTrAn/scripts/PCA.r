@@ -7,12 +7,21 @@ f_table_new = f_table
 f_table2 =f_table_new
 #colnames(f_table_new)
 #
-colnames(f_table2)=c ("AA_id","AB_group","H_speeds","N_distance_traveled","D_turning_angle","E_meander", 
-                       "O_activitytime_ST",
-                     "K_act_bouts_ST","C_pause_length_ST","I_#pauses_ST","P_activitytime_timeT",
-                     "L_act_bouts_DtimeT","B_pause_length_timeT","J_#pauses_timeT", "F_thigmotaxis_moving", "G_thigmotasix_pause","M_#walks","AC_stripe_deviation")
+##firstpaperorder
+# colnames(f_table2)=c ("AA_id","AB_group","H_speeds","N_distance_traveled","D_turning_angle","E_meander", 
+                       # "O_activitytime_ST",
+                     # "K_act_bouts_ST","C_pause_length_ST","I_#pauses_ST","P_activitytime_timeT",
+                     # "L_act_bouts_DtimeT","B_pause_length_timeT","J_#pauses_timeT", "F_thigmotaxis_moving", "G_thigmotasix_pause","M_#walks","AC_stripe_deviation")
+                     
+if (MINCOL==2){
+	colnames(f_table2)= c("AA_id","AB_group","H_speeds","N_distance_traveled","D_turning_angle","E_meander","XA_activitytime_ST","XB_act_bouts_ST","XC_pause_length_ST","XD_#pauses_ST","P_activitytime_timeT","L_act_bouts_DtimeT","B_pause_length_timeT","J_#pauses_timeT","F_thigmotaxis_moving", "G_thigmotasix_pause","M_#walks","AC_stripe_deviation")
+}
 
+if (MINCOL==8){
+	colnames(f_table2)= c("AA_id","AB_group","ZA_genotype",  "ZB_treatment", "ZC_machine","ZD_other", "ZE_date","ZF_timeofday","H_speeds","N_distance_traveled","D_turning_angle","E_meander","XA_activitytime_ST","XB_act_bouts_ST","XC_pause_length_ST","XD_#pauses_ST","P_activitytime_timeT","L_act_bouts_DtimeT","B_pause_length_timeT","J_#pauses_timeT","F_thigmotaxis_moving", "G_thigmotasix_pause","M_#walks","AC_stripe_deviation")
+}                     
 
+data.frame(names(f_table),names(f_table2))
 ## get linearity score out
 #f_table2=f_table2[,-16]
 
@@ -28,7 +37,7 @@ f_table2= f_table2[,order(colnames(f_table2))]
 
 
 i_table =na.omit(f_table2)
-h_table<-f_table2[,c(3:(length(f_table2)))]
+h_table<-f_table2[,c(3:(length(f_table2)-MINCOL+2-4))] #+2 from group and id, -4 to take ST out
 rownames (h_table) = paste (c(1:length(f_table2[,1])),f_table2[,2])
 #h_table<-f_table2[,c(3:13,16:length(f_table2))]
 g_table <- na.omit(h_table)
@@ -51,6 +60,7 @@ plot(t2*10, main= "variance explained cumulative")
 PCA_res= data.frame(scores)
 PCA_res$group = i_table[,2]
 
+PCA_res$group = i_table[,19]
  
 #Plot PC1 and 2 info on one graph
 PCA1to3 = data.frame(PCA_res$PC1,PCA_res$PC2,PCA_res$PC3,PCA_res$group)

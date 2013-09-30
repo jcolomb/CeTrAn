@@ -98,7 +98,6 @@ default-value =  "output" size="15"/>
 
 
 
-
 ### R CODE ###
 ##############
 setwd(rgghome)
@@ -138,7 +137,7 @@ source("scripts/MultipleFilesLoader.r")
 #print(traj)
 
 # get group and individum information
-group_ids = levels(factor(group))
+
 
 ### compute and plot data
 
@@ -157,9 +156,13 @@ setwd(rgghome)
 
 
 # load libs and functions again to avoid any old function to be present
-source("functions/include.r")
+#source("functions/include.r")
 if (g_individual) {
 	source ("scripts/singleflyoutputs.r")}
+
+source ("scripts/expand_f_table.r")
+
+group_ids = levels(factor(id_table$group))
 
 # write to
 setwd(outputpath)
@@ -193,13 +196,16 @@ source ("scripts/angledev.r")
 }
 
 #
+
+setwd(rgghome)
 source ("scripts/pdfoutput.r")
 
 
 if (g_occupancy) {
-	source ("scripts/occupancy.r")}
+	source ("scripts/occupancy.r")
+	}
 
-source ("scripts/expand_f_table.r")
+source ("scripts/changef_table.r")
 source ("scripts/saveworkspace.r")
 
 if (g_pca) {source ("scripts/pca.r")
@@ -228,7 +234,6 @@ if (g_open_pdf) {
 	else
 		system(paste(c("open",plot_path),collapse=" "))
 }
-
 
 
 

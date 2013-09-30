@@ -33,7 +33,7 @@ load.time <- function(par, id_prefix) {
 		
 	}
 	
-	times
+	#times
 ##get other group management
 
 #if (file.exists(XXX))
@@ -42,13 +42,37 @@ groupdetailfile="Groupdetail.csv"
 setwd(g_inputdir)
 if (file.exists(groupdetailfile)){
 	groupdl= read.csv(groupdetailfile)
-	for (i in c(1:nrow(id_talbe))){
-		id_talbe$genotype[i]= groupdl$genotype[groupdl$Original_group==id_table$group[i]]
-		id_talbe$treatment[i]= groupdl$treatment[groupdl$Original_group==id_table$group[i]]
-		id_talbe$machine[i]= groupdl$machine[groupdl$Original_group==id_table$group[i]]
-		id_talbe$other[i]= groupdl$other[groupdl$Original_group==id_table$group[i]]	
+	groupdl <- data.frame(lapply(groupdl, as.character), stringsAsFactors=FALSE)
+
+	# id_table$genotype=id_table$group
+	# id_table$treatment=id_table$group
+	# id_table$machine=id_table$group
+	# id_table$other=id_table$group
+	# levels (id_table$genotype)= levels(groupdl$genotype)
+	# levels (id_table$treatment)= levels(groupdl$treatment)
+	# levels (id_table$machine)= levels(groupdl$machine)
+	# levels (id_table$other)= levels(groupdl$other)
+	
+	for (i in c(1:nrow(id_table))){
+			id_table$genotype[i]= groupdl$genotype[groupdl$Original_group==as.character(id_table$group[i])]
+			id_table$treatment[i]= groupdl$treatment[groupdl$Original_group==as.character(id_table$group[i])]
+			id_table$machine[i]= groupdl$machine[groupdl$Original_group==as.character(id_table$group[i])]
+				id_table$other[i]= groupdl$other[groupdl$Original_group==as.character(id_table$group[i])]	
+		}
 	}else{message="no detail group indication, only the group name is given."
 	}	
 	#levels(id_table$group)
+
+###include new data into f_table, f_tablepositive and f_table_index
+
+
+
+###specific for CS data
+id_table[,2]= as.factor(paste(id_table[,3],id_table[,6], sep="_"))
+#######
+group= id_table[,2]
+
+setwd(rgghome)
+
 	
-}
+
