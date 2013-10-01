@@ -59,7 +59,7 @@ if (file.exists(groupdetailfile)){
 			id_table$machine[i]= groupdl$machine[groupdl$Original_group==as.character(id_table$group[i])]
 				id_table$other[i]= groupdl$other[groupdl$Original_group==as.character(id_table$group[i])]	
 		}
-	}else{message="no detail group indication, only the group name is given."
+	}else{message("no detail group indication, only the group name is given.")
 	}	
 	#levels(id_table$group)
 
@@ -68,7 +68,10 @@ if (file.exists(groupdetailfile)){
 
 
 ###specific for CS data
-id_table[,2]= as.factor(paste(id_table[,3],id_table[,6], sep="_"))
+if (ncol(id_table)>3){
+  id_table[,2]= as.factor(paste(id_table[,3],id_table[,6], sep="_"))
+  
+}
 #######
 group= id_table[,2]
 
