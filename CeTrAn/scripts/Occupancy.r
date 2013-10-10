@@ -58,8 +58,8 @@ group_names = levels(id_table$group)
 weights = c(21,16,4,1)
 
 for (i in c(1:length(group_names))) {
-	x = xy_table[xy_table$group==group_names[i],]$x
-	y = xy_table[xy_table$group==group_names[i],]$y
+	x = c(xy_table[xy_table$group==group_names[i],]$x,-60,60)
+	y = c(xy_table[xy_table$group==group_names[i],]$y,-60,60)
 	
 	hbin = hexbin(x,y,xbins=60)
 	hbin = hsmooth(hbin,wts=weights)
@@ -70,6 +70,6 @@ for (i in c(1:length(group_names))) {
 	cuts = seq(0,maxcut,length=255)
 	cuts = c(cuts,1)
 
-	plot(hbin,colorcut=cuts,colramp=blue2red,
+	h=plot(hbin, ,colorcut=cuts,colramp=blue2red,clip="off",
 		main=paste("Transition plot for",group_names[i]),legend=FALSE)
 }

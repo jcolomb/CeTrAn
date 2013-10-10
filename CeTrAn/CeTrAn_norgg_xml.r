@@ -1,29 +1,31 @@
-##set the working directory to this file parent folder
-rgghome="/Users/choupi/CeTrAn/CeTrAn"
+# ##set the working directory to this file parent folder
+# rgghome="/Users/choupi/CeTrAn/CeTrAn"
+# 
+# GRvar=2 ## say which variable to use at the grouping variable while producing graphs, group=2, genotype=3,...
+# 
+# outputfile = "output"
+# g_inputdir = "/Users/choupi/Desktop/buridan"
+# g_outputdir="/Users/choupi/Desktop/buridan/output"
+# g_filetablename ="diffCS_all.txt"
+# g_duration_slider = 10  #default=10, min0 max20
+# g_bin_size= 1 #default=1, min0 max20
+# g_supress_paints=TRUE
+# g_treshold = 8 # min0 max20
+# 
+# g_general= TRUE
+# g_roundarena= TRUE
+# g_stripes_deviation=TRUE
+# g_occupancy= TRUE
+# g_angledev= TRUE
+# g_outputtext= TRUE
+# g_log= TRUE
+# g_thigmo= TRUE
+# g_pca= TRUE
+# g_individual= TRUE
+# 
+# g_filetable= read.csv(paste(g_inputdir,g_filetablename, sep="/"),sep = "\t", header=FALSE)
 
-GRvar=2 ## say which variable to use at the grouping variable while producing graphs, group=2, genotype=3,...
 
-outputfile = "output"
-g_inputdir = "/Users/choupi/Desktop/buridan"
-g_outputdir="/Users/choupi/Desktop/buridan/output"
-g_filetablename ="diffCS_all.txt"
-g_duration_slider = 10  #default=10, min0 max20
-g_bin_size= 1 #default=1, min0 max20
-g_supress_paints=TRUE
-g_treshold = 8 # min0 max20
-
-g_general= TRUE
-g_roundarena= TRUE
-g_stripes_deviation=TRUE
-g_occupancy= TRUE
-g_angledev= TRUE
-g_outputtext= TRUE
-g_log= TRUE
-g_thigmo= TRUE
-g_pca= TRUE
-g_individual= TRUE
-
-g_filetable= read.csv(paste(g_inputdir,g_filetablename, sep="/"),sep = "\t", header=FALSE)
 ### R CODE ###
 ##############
 setwd(rgghome)
@@ -124,6 +126,7 @@ source ("scripts/angledev.r")
 #
 
 setwd(rgghome)
+source ("scripts/changef_table.r")
 source ("scripts/pdfoutput.r")
 
 
@@ -131,7 +134,7 @@ if (g_occupancy) {
 	source ("scripts/occupancy.r")
 	}
 
-source ("scripts/changef_table.r")
+
 source ("scripts/saveworkspace.r")
 
 if (g_pca) {source ("scripts/pca.r")
