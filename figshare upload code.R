@@ -7,7 +7,10 @@ options(FigshareKey = "jBkrLNsYbeov2oM09cXBBw")
 options(FigsharePrivateKey = "LhQkDeJaVJzAhWRIKYeobA")
 options(FigshareToken = "BYuYn4OjWjd8njBKCyeFXQOEAYY1MfLJ1Y0z80rVWj6AXYuYn4OjWjd8njXKCyeFXQ")
 options(FigsharePrivateToken = "aC2q4lBod3Xl52CeKwp7Fg")
-filesetid= "807697"
+#filesetid= "807697"
+
+filesetid="826026"
+
 fs_auth()
 
 
@@ -25,7 +28,8 @@ alreadyuploaded=c()
 newuploaded = c()
 nup=0
 newup=0
-for (i in c(1: length(DFN))){
+for (i in c(1: 8)){
+#for (i in c(1: length(DFN))){	
 	test= DFN[i]
 	if (!all(!grepl(test, det))){
 			nup=nup+1
@@ -35,7 +39,7 @@ for (i in c(1: length(DFN))){
 			
 			print(i)
 			if (as.character(test) != "not_accessible"){
-				fs_upload(article_id=filesetid, file= test)
+				fs_upload(article_id=filesetid, file= as.character(test))
 				#scan(as.character(test),nlines = 1, what = character())
 			}
 			

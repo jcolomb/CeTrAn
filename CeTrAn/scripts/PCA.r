@@ -19,7 +19,12 @@ if (MINCOL==2){
 
 if (MINCOL==8){
 	colnames(f_table2)= c("AA_id","AB_group","ZA_genotype",  "ZB_treatment", "ZC_machine","ZD_other", "ZE_date","ZF_timeofday","H_speeds","N_distance_traveled","D_turning_angle","E_meander","XA_activitytime_ST","XB_act_bouts_ST","XC_pause_length_ST","XD_#pauses_ST","P_activitytime_timeT","L_act_bouts_DtimeT","B_pause_length_timeT","J_#pauses_timeT","F_thigmotaxis_moving", "G_thigmotasix_pause","M_#walks","AC_stripe_deviation")
-}                     
+}      
+###add this to make the pca over the genotype group only
+
+# if (MINCOL==8){
+	# colnames(f_table2)= c("AA_id","ZA_group2","AB_group",  "ZB_treatment", "ZC_machine","ZD_other", "ZE_date","ZF_timeofday","H_speeds","N_distance_traveled","D_turning_angle","E_meander","XA_activitytime_ST","XB_act_bouts_ST","XC_pause_length_ST","XD_#pauses_ST","P_activitytime_timeT","L_act_bouts_DtimeT","B_pause_length_timeT","J_#pauses_timeT","F_thigmotaxis_moving", "G_thigmotasix_pause","M_#walks","AC_stripe_deviation")
+# }                
 
 data.frame(names(f_table),names(f_table2))
 ## get linearity score out
@@ -58,9 +63,9 @@ plot(t2*10, main= "variance explained cumulative")
 
 
 PCA_res= data.frame(scores)
-PCA_res$group = i_table[,2]
+PCA_res$group = as.factor(i_table[,2])
 
-PCA_res$group = i_table[,19]
+#PCA_res$group = i_table[,19]
  
 #Plot PC1 and 2 info on one graph
 PCA1to3 = data.frame(PCA_res$PC1,PCA_res$PC2,PCA_res$PC3,PCA_res$group)
@@ -82,6 +87,7 @@ Mean_PCA = create.mean.table(PCA1to3,levels(PCA1to3$PCA_res.group),1:2)
 
 
 abc= c(1:8, rgb(202,100,20,maxColorValue = 255),rgb(100,0,200,maxColorValue = 255))
+
  plot(scores[,1], scores[,2], xlab="PCA 1", ylab="PCA 2", 
    type="n", main="distance biplot",xlim=c(-max(scores[,1:2]*scalingaxis), max(scores[,1:2]*scalingaxis)), 
    ylim=c(-max(scores[,1:2]*scalingaxis), max(scores[,1:2]*scalingaxis))) 
