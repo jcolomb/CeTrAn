@@ -39,8 +39,9 @@ p=ggplot(data, aes(x=factor(genotype),y= stripe_deviation.1, fill= other))
  }
  
 
- 
+ pdf("testing_boxplot_f1000.pdf")
  plot+ labs(x="genotype",y="stripe deviation [°]", fill="session",title="")+
- scale_fill_grey(start = 0.4, end = 1)
+ scale_fill_grey(start = 0.4, end = 1)+ geom_hline(aes(yintercept=44), color="red")
+ dev.off()
  
  
