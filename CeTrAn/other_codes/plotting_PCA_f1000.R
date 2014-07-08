@@ -1,10 +1,12 @@
 # we get Mean_PCA_3d, PCA_res from the PCA script
-
+Mean_PCA=Mean_PCA_3d
 
 ##abc is the color for the groups, need to be changed such that one can set which group has color. this code makes the last group in color:
-abc= c(rep(1,length(levels(PCA_res$group))-1),2)
+##abc= c(rep(1,length(levels(PCA_res$group))-1),2)
+####abc=c (1:6)
 
-M=max(Mean_PCA$means)+max(Mean_PCA$ses)*1.1
+
+M=max(abs(Mean_PCA$means))+max(Mean_PCA$ses)*1.1
 
 pdf("test.pdf")
 layout(matrix(c(1,3,2,4), 2, 2, byrow=TRUE), respect=TRUE)

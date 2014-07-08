@@ -1,4 +1,4 @@
-grouping= "group"  #PCA result grouped by variable "grouping"
+grouping= "genotype"  #PCA result grouped by variable "grouping"
 
 setwd("/Users/colombj/Gits/CeTrAn/CeTrAn/")
 source("functions/include.r")
