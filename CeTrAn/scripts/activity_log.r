@@ -3,7 +3,7 @@
 # return activity plots
 
 
-message("starting activity.r")
+message("starting activity.r - corrected for experimental length")
 ### compute the activities
 	
 act_table = data.frame()
@@ -73,16 +73,18 @@ for (i in c(1:nrow(id_table))) {
                            # median_act_dist=median_act_choice,
                            # median_pause2=median_pause,number_pause2=number_pause,median_lin2= median_lin,id=id_table$id,group=id_table$group)
 
+number_pause=number_pause/f_table$length_experiment
+sum_act=sum_act/f_table$length_experiment
 
-f_table=data.frame(f_table,activitytime_TT=sum_act,
+f_table=data.frame(f_table,activitytime_permin_TT=sum_act,
                    act_bouts_TT=median_act,
                    pause_length_TT=median_pause,
-                   numb_pauses_TT= number_pause)
+                   numb_pauses_permin_TT= number_pause)
 
-f_table_positive=data.frame(f_table_positive,activitytime_TT=sum_act,
+f_table_positive=data.frame(f_table_positive,activitytime_permin_TT=sum_act,
                    act_bouts_TT=median_act,
                    pause_length_TT=median_pause,
-                   numb_pauses_TT= number_pause)
+                   numb_pauses_permin_TT= number_pause)
 
 message("starting writing activities log.txt")
 

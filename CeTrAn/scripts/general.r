@@ -36,9 +36,9 @@ for (i in c(1:nrow(id_table))) {
 	distances = c(distances,dist)
 }
 
-f_table = data.frame(f_table,median_speed=average_speeds,distance_traveled_mm_p_min=distances)
+f_table = data.frame(f_table,median_speed=average_speeds,distance_traveled_mm__permin=distances)
 
-f_table_positive= data.frame(f_table_positive,median_speed=average_speeds,distance_traveled_mm_p_min=distances)
+f_table_positive= data.frame(f_table_positive,median_speed=average_speeds,distance_traveled_mm__permin=distances)
 
 #dist_table = data.frame(dist=distances,group=id_table$group)
 #dist_mtable = create.mean.table(dist_table,group_ids)

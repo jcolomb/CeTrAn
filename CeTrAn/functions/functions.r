@@ -455,6 +455,18 @@ c.distance <- function(traj) {
 	return(sum(dists)/sum(time)*60)
 }
 
+c.time <- function(traj) {
+  
+  time <-c()
+	for (oo in c(1:length(traj))) {	
+		data = traj[[oo]]	
+		
+		dtime <- data$dt
+		dtime <- dtime [!is.na(dtime)]
+		time <- c(time,sum(dtime))
+	}	
+	return(sum(time)/60)
+}
 
 
 c.activity <- function(traj,min_pause_length) {

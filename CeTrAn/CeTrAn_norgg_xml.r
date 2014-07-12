@@ -102,6 +102,7 @@ pdf(bla)
 
 setwd(rgghome)
 source ("scripts/samplesize.r")
+source ("scripts/exp_length.r")
 if (g_general) {
 	source ("scripts/general.r")
 	source ("scripts/straightness.r")

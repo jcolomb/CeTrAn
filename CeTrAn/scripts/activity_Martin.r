@@ -173,7 +173,7 @@ c.activity_martin <- function(traj, min_pause_length=0.2) {
 # return activity plots
 
 
-message("starting activity_martin.r")
+message("starting activity_martin.r corrected for experimental length")
 ### compute the activities
 	
 act_table = data.frame()
@@ -226,12 +226,14 @@ for (i in c(1:nrow(id_table))) {
 	
 }
 #act_table_m2 = data.frame(sum_act,median_act,median_pause,number_pause,id=id_table$id,group=id_table$group)
+number_pause=number_pause/f_table$length_experiment
+sum_act=sum_act/f_table$length_experiment
 
-f_table = data.frame (f_table,activitytime_ST=sum_act,act_bouts_ST=median_act,
-pause_duration_ST=median_pause,numb_pause_ST=number_pause)
+f_table = data.frame (f_table,activitytime_permin_ST=sum_act,act_bouts_ST=median_act,
+pause_duration_ST=median_pause,numb_pause_permin_ST=number_pause)
 
-f_table_positive= data.frame (f_table_positive,activitytime_ST=sum_act,act_bouts_ST=median_act,
-pause_duration_ST=median_pause,numb_pause_ST=number_pause)
+f_table_positive= data.frame (f_table_positive,activitytime_permin_ST=sum_act,act_bouts_ST=median_act,
+pause_duration_ST=median_pause,numb_pause_permin_ST=number_pause)
 message("starting writing activities log.txt")
 
 

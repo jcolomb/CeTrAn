@@ -6,9 +6,11 @@ walks = c()
 for (i in c(1:nrow(id_table))) {
   walks = c(walks,nrow(c.nwalks(traj[id(traj)==id_table$id[i]],env[[i]])))
 }
-f_table = data.frame(f_table,number_of_walks=walks)
+walks=walks/f_table$length_experiment
 
-f_table_positive= data.frame(f_table_positive,number_of_walks=walks)
+f_table = data.frame(f_table,number_of_walks_permin=walks)
+
+f_table_positive= data.frame(f_table_positive,number_of_walks_permin=walks)
 
 
 # takes g_inputdir,g_filetable and g_outputdir

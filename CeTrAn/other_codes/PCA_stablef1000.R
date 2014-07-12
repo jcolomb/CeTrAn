@@ -5,10 +5,15 @@ source("functions/include.r")
 
 message("start PCA")
 #data=read.csv("output _table.csv")
-name=c("id",grouping,"median_speed","distance_traveled_mm_p_min","turning_angle",
+name=c("id",grouping,"median_speed","distance_traveled_mm__permin","turning_angle",
+"meander","activitytime_permin_TT","act_bouts_TT","pause_length_TT",
+"numb_pauses_permin_TT","centrophobism_moving","centrophobism_sitting",      "number_of_walks_permin","stripe_deviation")
+
+name2=c("id",grouping,"median_speed","distance_traveled_mm_p_min","turning_angle",
 "meander","activitytime_TT","act_bouts_TT","pause_length_TT",
 "numb_pauses_TT","centrophobism_moving","centrophobism_sitting",      "number_of_walks","stripe_deviation")
 
+f_table= data[,name2]
 f_table= data[,name]
 
 i_table =na.omit(f_table)
