@@ -1,7 +1,7 @@
 #pdf("test.pdf")
 #GRvar=3
 #group_ids=as.character(levels(factor(f_table[,GRvar])))
-
+par(cex.axis=0.6)
 
 MINCOL=ifelse(exists("extended_table"),8,2)
 GRvar=2
@@ -43,47 +43,59 @@ if (ncol(f_table_index)> MINCOL+2){
 
 }
 # ###
-# ###now with boxplots
+###now with boxplots
+genotypen=length(levels(as.factor(f_table_index$genotype)))
+groupn=length(levels(f_table_index$group))
+rep=groupn/genotypen
+colors=c()
+for (i in c(0,2:genotypen)){
+  colors=c(colors,rep(i,rep))
+}
 
-# if (ncol(f_table_positive)> MINCOL){
-  # for (i in c(MINCOL+1: ncol(f_table_positive))){
-    # thisdatatable= data.frame(values=f_table_positive[,i], group=f_table_positive[,2])
-    # thisdataname = names(f_table_positive)[i]
+if (ncol(f_table_positive)> MINCOL){
+  for (i in c((MINCOL+1): ncol(f_table_positive))){
+    message(i)
+    thisdatatable= data.frame(values=f_table_positive[,i], group=f_table_positive[,2])
+    thisdataname = names(f_table_positive)[i]
     
     
     
-    # ymax = max(thisdatatable$values)
-    # ymin = min(0,thisdatatable$values)
-    # ymin=ifelse(is.na(ymin),0,ymin)
-    # ymax=ifelse(is.na(ymax),0,ymax)
-    # boxplot(thisdatatable$values~thisdatatable$group, main= thisdataname, ylab=thisdataname,ylim= c(ymin,ymax))
+    ymax = max(thisdatatable$values)
+    ymin = min(0,thisdatatable$values)
+    ymin=ifelse(is.na(ymin),0,ymin)
+    ymax=ifelse(is.na(ymax),0,ymax)
+    boxplot(thisdatatable$values~thisdatatable$group,col=colors,las=2, main= thisdataname, ylab=thisdataname,ylim= c(ymin,ymax))
     
-  # }
-# }
-# message("writeoutput index")
-# if (ncol(f_table_index)>2){
-  # for (i in c(3,4)){
-    # thisdatatable= data.frame(values=f_table_index[,i], group=f_table_index[,2])
-    # thisdataname = names(f_table_index)[i]
-    # meanstable = create.mean.table(thisdatatable,group_ids)
-    # ymax = 1
-    # ymin = -1
-    # boxplot(thisdatatable$values~thisdatatable$group, main= thisdataname, ylab=thisdataname,ylim= c(ymin,ymax))
-  # abline(h=0, col=2)
-    # }
-# }
-# ##plot stripe deviation
-# if (ncol(f_table_index)>4){
-  # i=5
-  # thisdatatable= data.frame(values=f_table_index[,i], group=f_table_index[,2])
-  # thisdataname = names(f_table_index)[i]
-  # meanstable = create.mean.table(thisdatatable,group_ids)
-  # ymax = 60
-  # ymin = 0
-  # boxplot(thisdatatable$values~thisdatatable$group, main= thisdataname, ylab=thisdataname,ylim= c(ymin,ymax))
-  # abline(h=45, col=2)
-  
-# }
+  }
+}
+message("writeoutput index")
+if (ncol(f_table_index)>2){
+  for (i in c(MINCOL+1,MINCOL+2)){
+    thisdatatable= data.frame(values=f_table_index[,i], group=f_table_index[,2])
+    thisdataname = names(f_table_index)[i]
+    meanstable = create.mean.table(thisdatatable,group_ids)
+    ymax = 1
+    ymin = -1
+    boxplot(thisdatatable$values~thisdatatable$group,col=colors,las=2, main= thisdataname, ylab=thisdataname,ylim= c(ymin,ymax))
+  abline(h=0, col=2)
+    }
+}
+##plot stripe deviation
+if (ncol(f_table_index)>MINCOL+2){
+  i=MINCOL+3
+  thisdatatable= data.frame(values=f_table_index[,i], group=f_table_index[,2])
+  thisdataname = names(f_table_index)[i]
+  meanstable = create.mean.table(thisdatatable,group_ids)
+  ymax = 60
+  ymin = 0
+  boxplot(thisdatatable$values~thisdatatable$group,col=colors, main= thisdataname, ylab=thisdataname,ylim= c(ymin,ymax),las=2)
+  abline(h=45, col=2)
+  #legend(x=1,y=60,legend=levels(as.factor(f_table_index$genotype)), fill=c(0:5))
+}
+
+
+
+
 
 
 

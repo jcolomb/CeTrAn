@@ -32,7 +32,7 @@ load.time <- function(par, id_prefix) {
 		#setTxtProgressBar(pg.bar, i)
 		
 	}
-	
+add_table=times	
 	#times
 ##get other group management
 
