@@ -19,6 +19,7 @@ for (i in c((MINCOL+1): ncol(f_table_positive))){
 	  mybarplot(meanstable$means$values,meanstable$ses$values,rownames = group_ids,main=paste("mean of ", thisdataname),ylab=thisdataname,ylim= c(ymin,ymax))
   }
 }
+
 message("writeoutput index")
 if (ncol(f_table_index)> MINCOL){
 for (i in c((MINCOL+1):(ncol(f_table_index)-1))){
@@ -44,9 +45,13 @@ if (ncol(f_table_index)> MINCOL+2){
 }
 # ###
 ###now with boxplots
-genotypen=length(levels(as.factor(f_table_index$genotype)))
 groupn=length(levels(f_table_index$group))
+genotypen=length(levels(as.factor(f_table_index$genotype)))
+if (genotypen<2){genotypen=groupn}
+  
 rep=groupn/genotypen
+
+
 colors=c()
 for (i in c(0,2:genotypen)){
   colors=c(colors,rep(i,rep))
@@ -60,10 +65,10 @@ if (ncol(f_table_positive)> MINCOL){
     
     
     
-    ymax = max(thisdatatable$values)
+    ymax =  max(thisdatatable$values)
     ymin = min(0,thisdatatable$values)
-    ymin=ifelse(is.na(ymin),0,ymin)
-    ymax=ifelse(is.na(ymax),0,ymax)
+    ymin=ifelse(is.na(ymin),0,1.05*ymin)
+    ymax=ifelse(is.na(ymax),0,1.05*ymax)
     boxplot(thisdatatable$values~thisdatatable$group,col=colors,las=2, main= thisdataname, ylab=thisdataname,ylim= c(ymin,ymax))
     
   }

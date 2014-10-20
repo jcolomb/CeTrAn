@@ -123,7 +123,7 @@ if (g_stripes_deviation){
 source ("scripts/angledev.r")
 
 }
-
+source ("scripts/saveworkspace.r")
 #
 
 setwd(rgghome)
