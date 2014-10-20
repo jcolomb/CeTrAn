@@ -51,6 +51,12 @@ if (!is.na(g_outputdir)) {
 } else {
 	outputpath = paste(c(datapath,"/output/"),collapse="")	
 }
+
+##fordebug
+setwd(outputpath)
+save.image(file= paste(outputfile,"_workspace.rdata"))
+setwd(rgghome)
+
 #load fly data
 fileName = g_filetable[,1]
 group = g_filetable[,2]
