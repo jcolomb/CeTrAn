@@ -13,12 +13,12 @@ f_table2 =f_table_new
                      # "K_act_bouts_ST","C_pause_length_ST","I_#pauses_ST","P_activitytime_timeT",
                      # "L_act_bouts_DtimeT","B_pause_length_timeT","J_#pauses_timeT", "F_thigmotaxis_moving", "G_thigmotasix_pause","M_#walks","AC_stripe_deviation")
                      
-if (MINCOL==2){
-	colnames(f_table2)= c("AA_id","AB_group","H_speeds","N_distance_traveled","D_turning_angle","E_meander","XA_activitytime_ST","XB_act_bouts_ST","XC_pause_length_ST","XD_#pauses_ST","P_activitytime_timeT","L_act_bouts_DtimeT","B_pause_length_timeT","J_#pauses_timeT","F_thigmotaxis_moving", "G_thigmotasix_pause","M_#walks","AC_stripe_deviation")
+if (MINCOL==4){
+	colnames(f_table2)= c("AA_id","AB_group","ZE_date","ZF_timeofday","ZG_experiment_duration","H_speeds","N_distance_traveled","D_turning_angle","E_meander","XA_activitytime_ST","XB_act_bouts_ST","XC_pause_length_ST","XD_#pauses_ST","P_activitytime_timeT","L_act_bouts_DtimeT","B_pause_length_timeT","J_#pauses_timeT","F_thigmotaxis_moving", "G_thigmotasix_pause","M_#walks","AC_stripe_deviation")
 }
 
 if (MINCOL==8){
-	colnames(f_table2)= c("AA_id","AB_group","ZA_genotype",  "ZB_treatment", "ZC_machine","ZD_other", "ZE_date","ZF_timeofday","H_speeds","N_distance_traveled","D_turning_angle","E_meander","XA_activitytime_ST","XB_act_bouts_ST","XC_pause_length_ST","XD_#pauses_ST","P_activitytime_timeT","L_act_bouts_DtimeT","B_pause_length_timeT","J_#pauses_timeT","F_thigmotaxis_moving", "G_thigmotasix_pause","M_#walks","AC_stripe_deviation")
+	colnames(f_table2)= c("AA_id","AB_group","ZA_genotype",  "ZB_treatment", "ZC_machine","ZD_other", "ZE_date","ZF_timeofday","ZG_experiment_duration","H_speeds","N_distance_traveled","D_turning_angle","E_meander","XA_activitytime_ST","XB_act_bouts_ST","XC_pause_length_ST","XD_#pauses_ST","P_activitytime_timeT","L_act_bouts_DtimeT","B_pause_length_timeT","J_#pauses_timeT","F_thigmotaxis_moving", "G_thigmotasix_pause","M_#walks","AC_stripe_deviation")
 }      
 ###add this to make the pca over the genotype group only
 
@@ -243,7 +243,7 @@ f_table2 =na.omit(f_table2)
 #f_table2$AB_group =f_table2$group
 for(i in 1:length(levels((f_table2$AB_group)))){
   totest= f_table2[f_table2$AB_group==levels((f_table2$AB_group))[i],]
-  totestdata= totest[,c(3:(length(totest)))]
+  totestdata= totest[,c(3:(length(totest)-(MINCOL-1)))]
   
   CORRMATRIX= cor.prob3 (totestdata)
   

@@ -20,4 +20,4 @@ if (!all(add_table[,1]==f_table[,1])){ stop ("there is a problem with the new f_
 	if (!all(f_table[,1]==newtable[,1])){ stop ("there is a problem with the new f_table (groups), please report to developer and do not use the data obtained")}
 	
 	f_table_index=newtable
-	extended_table="extended_table"
+	

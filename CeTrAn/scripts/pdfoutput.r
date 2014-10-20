@@ -3,7 +3,7 @@
 #group_ids=as.character(levels(factor(f_table[,GRvar])))
 par(cex.axis=0.6)
 
-MINCOL=ifelse(exists("extended_table"),8,2)
+MINCOL=ncol(add_table)+ncol(id_table)-1
 GRvar=2
 message("writeoutput_positive")
 save.image(file= paste(outputfile,"_datainputbeforewrite.rdata"))
