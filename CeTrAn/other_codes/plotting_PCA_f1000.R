@@ -66,7 +66,7 @@ for (i in 1:length(levels(PCA_res$group))){
 #plot(PCA_res$PC2~PCA_res$PC1, type= "n", add=TRUE)
 
 for (i in 1:length(levels(PCA_res$group))){
-	X = subset(PCA_res,PCA_res$group == levels(PCA_res$group)[i])
+	#X = subset(PCA_res,PCA_res$group == levels(PCA_res$group)[i])
 	#points(X$PC2~ X$PC1, col=i, pch= i+10)
 	#legend("topleft", legend=(levels(PCA_res$group)[i]), fill= 	abc[i], bty="n", inset = c(0,i/30))
 	 #text(x+1,y-0.1, levels(PCA_res$group)[i], col=i, 
@@ -82,26 +82,16 @@ for (i in 1:length(levels(PCA_res$group))){
 	abline (v=0, h=0)	
 	
 #plot legend	
- plot(scores[,3], scores[,2], xlab="legend", ylab="PCA 2", 
-   type="n", main="distance biplot",xlim=c(-M, M), 
+ plot(scores[,3], scores[,2], xlab="legend", ylab="", 
+   type="n", main="", xaxt="n", bty="n", yaxt="n", xlim=c(-M, M), 
    ylim=c(-M, M))
-
 #plot(PCA_res$PC2~PCA_res$PC1, type= "n", add=TRUE)
 
 for (i in 1:length(levels(PCA_res$group))){
 	X = subset(PCA_res,PCA_res$group == levels(PCA_res$group)[i])
 	#points(X$PC2~ X$PC1, col=i, pch= i+10)
-	legend("topleft", legend=(levels(PCA_res$group)[i]), fill= 	abc[i], bty="n", inset = c(0,i/10-0.15)
+	legend("topleft", legend=(levels(PCA_res$group)[i]), col= 	abc[i], lty= 1, bty="n", inset = c(0,i/10-0.15)
 	)
-	 #text(x+1,y-0.1, levels(PCA_res$group)[i], col=i, 
-	#   cex=0.7) 
-   x=Mean_PCA_3d$means$PCA_res.PC3[i]
-	y=Mean_PCA_3d$means$PCA_res.PC2[i]
-	x2=Mean_PCA_3d$ses$PCA_res.PC3[i]
-	y2=Mean_PCA_3d$ses$PCA_res.PC2[i]
-	#segments (x-x2,y,x+x2,y, col=abc[i])
-	#segments (x,y-y2,x,y+y2, col=abc[i])
-  
 	}
 	
 dev.off()	
