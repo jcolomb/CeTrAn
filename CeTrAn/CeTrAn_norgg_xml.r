@@ -1,12 +1,15 @@
 # ##set the working directory to this file parent folder
-# rgghome="/Users/choupi/CeTrAn/CeTrAn"
+# rgghome="~/Gits/CeTrAn/CeTrAn"
 # 
 # GRvar=2 ## say which variable to use at the grouping variable while producing graphs, group=2, genotype=3,...
-# 
+# ## this is to be modified according to data location
+
 # outputfile = "output"
-# g_inputdir = "/Users/choupi/Desktop/buridan"
-# g_outputdir="/Users/choupi/Desktop/buridan/output"
+# g_inputdir = "~/Gits/Buridan_5CS/4CS_data"
+# g_outputdir="~/Gits/Buridan_5CS/4CS_data/output"
 # g_filetablename ="diffCS_all.txt"
+
+##those are the variables
 # g_duration_slider = 10  #default=10, min0 max20
 # g_bin_size= 1 #default=1, min0 max20
 # g_supress_paints=TRUE
@@ -22,7 +25,9 @@
 # g_thigmo= TRUE
 # g_pca= TRUE
 # g_individual= TRUE
-# 
+# g_open_pdf=FALSE
+
+###reading the table of groups
 # g_filetable= read.csv(paste(g_inputdir,g_filetablename, sep="/"),sep = "\t", header=FALSE)
 
 
@@ -44,12 +49,13 @@ if (ncol(g_filetable)!=2)
 # determine path
 datapath = g_inputdir
 
-# set output dir
+# set output dir, need to create the directory if not existant
 outputpath = ""
 if (!is.na(g_outputdir)) {
 	outputpath = g_outputdir
 } else {
-	outputpath = paste(c(datapath,"/output/"),collapse="")	
+  dir.create (paste(c(datapath,"/output"),collapse=""))
+	outputpath = paste(c(datapath,"/output"),collapse="")	
 }
 
 ##fordebug

@@ -61,13 +61,19 @@ i=1:6
 
 segments (x-x2,y,x+x2,y, col=i)
 segments (x,y-y2,x,y+y2, col=i)
+X=cbind(PCA_res, f_table [,c(3:7)])
+X$treatment=X$other
+
+shapiro.test(PCA_res$PC1)
+shapiro.test(PCA_res$PC2)
+shapiro.test(PCA_res$PC3)
 
 A=aov(PCA_res$PC1~PCA_res$group)
 A=aov(X$PC1~ X$genotype*X$treatment)
 summary(A)
 A=aov(X$PC2~ X$genotype*X$treatment)
 summary(A)
-A=aov(PCA_res$PC1~PCA_res$group)
+#A=aov(PCA_res$PC1~PCA_res$group)
 A=aov(Y$PC1~ Y$genotype*Y$treatment)
 summary(A)
 A=aov(Y$PC2~ Y$genotype*Y$treatment)

@@ -13,7 +13,7 @@ name2=c("id",grouping,"median_speed","distance_traveled_mm_p_min","turning_angle
 "meander","activitytime_TT","act_bouts_TT","pause_length_TT",
 "numb_pauses_TT","centrophobism_moving","centrophobism_sitting",      "number_of_walks","stripe_deviation")
 
-f_table= data[,name2]
+#f_table= data[,name2]
 f_table= data[,name]
 
 i_table =na.omit(f_table)
