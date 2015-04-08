@@ -9,7 +9,7 @@ Mean_PCA=Mean_PCA_3d
 M=max(abs(Mean_PCA$means))+max(Mean_PCA$ses)*1.1
 
 setwd(g_outputdir)
-pdf("test.pdf")
+png("test.png", width = 768, height = 768 )
 layout(matrix(c(1,3,2,4), 2, 2, byrow=TRUE), respect=TRUE)
 #plot -1 versus 2
  plot(-scores[,1], scores[,2], xlab="PCA 1", ylab="PCA 2", 
@@ -26,8 +26,9 @@ for (i in 1:length(levels(PCA_res$group))){
 	y=Mean_PCA_3d$means$PCA_res.PC2[i]
 	x2=-Mean_PCA_3d$ses$PCA_res.PC1[i]
 	y2=Mean_PCA_3d$ses$PCA_res.PC2[i]
-segments (x-x2,y,x+x2,y, col=abc[i])
-segments (x,y-y2,x,y+y2, col=abc[i])
+segments (x-x2,y,x+x2,y, col=X$col[1],lty=X$lty[1])
+segments (x,y-y2,x,y+y2, col=X$col[1],lty=X$lty[1])
+points(x,y, pch=i,col=X$col[1])
 	}
 	abline (v=0, h=0)
 	
@@ -49,9 +50,9 @@ for (i in 1:length(levels(PCA_res$group))){
 	y=-Mean_PCA_3d$means$PCA_res.PC3[i]
 	x2=-Mean_PCA_3d$ses$PCA_res.PC1[i]
 	y2=-Mean_PCA_3d$ses$PCA_res.PC3[i]
-	segments (x-x2,y,x+x2,y, col=abc[i])
-	segments (x,y-y2,x,y+y2, col=abc[i])
-  
+	segments (x-x2,y,x+x2,y, col=X$col[1],lty=X$lty[1])
+	segments (x,y-y2,x,y+y2, col=X$col[1],lty=X$lty[1])
+	points(x,y, pch=i,col=X$col[1])
 	}
 	abline (v=0, h=0)	
 	
@@ -67,7 +68,7 @@ for (i in 1:length(levels(PCA_res$group))){
 #plot(PCA_res$PC2~PCA_res$PC1, type= "n", add=TRUE)
 
 for (i in 1:length(levels(PCA_res$group))){
-	#X = subset(PCA_res,PCA_res$group == levels(PCA_res$group)[i])
+	X = subset(PCA_res,PCA_res$group == levels(PCA_res$group)[i])
 	#points(X$PC2~ X$PC1, col=i, pch= i+10)
 	#legend("topleft", legend=(levels(PCA_res$group)[i]), fill= 	abc[i], bty="n", inset = c(0,i/30))
 	 #text(x+1,y-0.1, levels(PCA_res$group)[i], col=i, 
@@ -76,9 +77,9 @@ for (i in 1:length(levels(PCA_res$group))){
 	y=Mean_PCA_3d$means$PCA_res.PC2[i]
 	x2=Mean_PCA_3d$ses$PCA_res.PC3[i]
 	y2=Mean_PCA_3d$ses$PCA_res.PC2[i]
-	segments (x-x2,y,x+x2,y, col=abc[i])
-	segments (x,y-y2,x,y+y2, col=abc[i])
-  
+	segments (x-x2,y,x+x2,y, col=X$col[1],lty=X$lty[1])
+	segments (x,y-y2,x,y+y2, col=X$col[1],lty=X$lty[1])
+	points(x,y, pch=i,col=X$col[1])
 	}
 	abline (v=0, h=0)	
 	
@@ -91,7 +92,7 @@ for (i in 1:length(levels(PCA_res$group))){
 for (i in 1:length(levels(PCA_res$group))){
 	X = subset(PCA_res,PCA_res$group == levels(PCA_res$group)[i])
 	#points(X$PC2~ X$PC1, col=i, pch= i+10)
-	legend("topleft", legend=(levels(PCA_res$group)[i]), col= 	abc[i], lty= 1, bty="n", inset = c(0,i/10-0.15)
+	legend("topleft", legend=(levels(PCA_res$group)[i]), col=X$col[1],lty=X$lty[1], pch=i,bty="n", cex=0.5,inset = c(0,i/20)
 	)
 	}
 	

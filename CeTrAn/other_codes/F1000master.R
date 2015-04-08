@@ -1,7 +1,10 @@
 ### code for figure 4 in the F1000 paper
 
 
-REBOOT =T#if true: all data are recalculated
+REBOOT =F#if true: all data are recalculated
+only_one_additional_group=F #if true, groups selected such that only the group given will be analysed with the 5 initial groups.
+
+#Additional_group = "data entered by the user!"
 
 #indicate analysis variables:
 g_duration_slider = 10  #default=10, min0 max20
@@ -27,8 +30,8 @@ outputfile = "temp/output"
 
 ##NEED TO BE CHANGED WHEN MOVING TO A NEW ENVIRONMENT
 #define folders where files are read/written
-g_inputdir = "~/Desktop/F1000/Buridan_data_reworked/withgrouptxt"
-g_outputdir="~/Desktop/F1000/Buridan_data_reworked/withgrouptxt/outputs"
+g_inputdir = "~/Desktop/F1000/Buridan_data_reworked/uploads"
+g_outputdir="~/Desktop/F1000/Buridan_data_reworked/output"
 rgghome= "~/Gits/CeTrAn/CeTrAn"
 ##
 
@@ -62,6 +65,7 @@ if (REBOOT) {onlycolname=structure(list(id = logical(0), group = logical(0), dat
 }
   analyseresults=read.csv(paste(g_outputdir,"analysed_data.csv", sep="/"))
   analyseresults=analyseresults[,-1]
+  analyseresults$UID= as.factor(analyseresults$UID)
   analysed = levels(analyseresults$UID)
 
 
@@ -70,7 +74,7 @@ if (REBOOT) {onlycolname=structure(list(id = logical(0), group = logical(0), dat
 for (i in c(1:nrow(importdata))){
   UID=importdata[i,1]
   if (!UID %in% analysed){
-    #message("YES")
+    message("YES")
     if (exists("combf_table")){analyseresults=combf_table}
     groupname=importdata[i,8]
     g_filetablename = paste (groupname, "/grouping.csv",sep="")
@@ -86,19 +90,26 @@ for (i in c(1:nrow(importdata))){
     
   }
 setwd(g_outputdir)  
-write.csv(combf_table,"analysed_data.csv")  
+### if new data write the new analysis, if no new data, just write the data into the combf_table variable
+if (exists("combf_table")){
+  write.csv(combf_table,"analysed_data.csv")
+  }else {combf_table=analyseresults}
 
 }
 
 #now the result table is used to perform the PCA:
 data=combf_table
-
 setwd(rgghome)
+if (only_one_additional_group){
+  source(other_codes/f1000_only_one_group.r)
+}
+
 source ("other_codes/PCA_stablef1000.R")# you need to get line 7 out
 
-## this value "abc" is deciding the color of the plot. it could eventually be chosen by the user, that is why I put the plotting code apart: if we make this value changeable, we do not have to do the PCA analysis again.
+##not in use anymore: old way to add colors 
+##this value "abc" is deciding the color of the plot. it could eventually be chosen by the user, that is why I put the plotting code apart: if we make this value changeable, we do not have to do the PCA analysis again.
 
-abc= c(2,rep(1,length(levels(PCA_res$group))-1)) #last group in red, all the other in black
+#abc= c(2,rep(1,length(levels(PCA_res$group))-1)) #last group in red, all the other in black
 #abc=c (1:600) # color used per default, only 6 different colors used in loop
 
 source ("other_codes/plotting_PCA_f1000.R") # you will need to change *pdf("test.pdf")* (l.9) with the appropriate output, probably *png("pca_plot.png")*
