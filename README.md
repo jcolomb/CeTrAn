@@ -3,7 +3,7 @@ CeTrAn
 
 CeTrAn is a R script to analyse and publish (on figshare) trajectory data, principally data obtained from Buritrack a tracker designed for fruit flies running in the Buridan assay. see also www.buridan.sourceforge.net.
 
-Look at the documentation about how to install rgg runner and use the program. You will find test data, such that you can test new functions.
+Look at the documentation about how to install rgg runner and use the program. You will find test data, such that you can test new functions. There are problems installing rgg. Installing java 6, desinstalling newer java, restarting and downloading the zip archive of rgg seem to work on most windows machines.
 
 
 If you publish a scientific paper using CeTran, please refer to:
