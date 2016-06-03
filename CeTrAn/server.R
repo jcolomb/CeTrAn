@@ -1,7 +1,7 @@
 require(shiny)
 require(rhandsontable)
 require(tidyr)
-rgghome <-  paste(getwd(),"CeTrAn", sep = "/")
+rgghome <-  getwd()
 
 shinyServer(function(input, output, session) {
   
@@ -17,6 +17,8 @@ shinyServer(function(input, output, session) {
   
   DataOutput <- reactive({
     g_filetablename <- as.character(parseFilePaths(volumes, input$g_filetablename)$datapath)
+    g_inputdir <- as.character(parseDirPath(volumes, input$inputdir))
+    g_outputdir <- as.character(parseDirPath(volumes, input$outputdir))
     g_filetable <- read.csv(g_filetablename,sep = "\t", header=FALSE)
     g_duration_slider <- input$g_duration_slider
     g_bin_size <- input$g_bin_size
@@ -33,26 +35,25 @@ shinyServer(function(input, output, session) {
     g_pca <- input$g_pca
     g_individual <- input$g_individual
     g_open_pdf <- input$g_open_pdf
-    
+    outputfile <- input$outputfile
 
     # call main program
-    source("CeTrAn_norgg_xml.r")
+    source("CeTrAn_norgg_xml.r", local=TRUE)
+
+    
   })
-  
-  
+
   output$pdflink <- downloadHandler(
     filename <- input$outputfile,
     content <- function(file) {
       DataOutput()
-      dev.copy2pdf(file = file, width=12, height=8, out.type="pdf")
-      # file.copy("plot.pdf", file)
+      file.copy(bla, file)
     }
   )
     
-    
-
-  output$filepaths <- renderPrint({parseFilePaths(volumes, input$g_filetablename)$datapath})
+  output$test <- renderPrint({rgghome})
+  output$filepaths <- renderPrint({as.character(parseFilePaths(volumes, input$g_filetablename)$datapath)})
   output$directorypath <- renderPrint({parseDirPath(volumes, input$g_inputdir)})
-  
+
  
 })

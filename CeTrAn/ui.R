@@ -53,6 +53,7 @@ fluidPage(
                 mainPanel(
                   textOutput("filepaths"),
                   textOutput("directorypath"),
+                  textOutput("test"),
                   downloadLink("pdflink")
                 )
   
