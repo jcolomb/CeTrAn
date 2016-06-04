@@ -33,15 +33,15 @@
 
 ### R CODE ###
 ##############
-setwd(rgghome)
+# setwd(rgghome)
 
 
 # load libs and functions
-source("functions/include.r")
+source("functions/include.r", local=TRUE)
 
 #check if input is ok
-if (is.na(g_inputdir)||is.na(g_filetable))
-	stop("No input files specified.")
+if (!exists("g_inputdir")||!exists("g_filetable"))
+  stop("No input files specified.")
 
 if (ncol(g_filetable)!=2)
 	stop("Input matrix has a wrong format")
@@ -51,7 +51,7 @@ datapath = g_inputdir
 
 # set output dir, need to create the directory if not existant
 outputpath = ""
-if (!is.na(g_outputdir)) {
+if (exists("g_outputdir")) {
 	outputpath = g_outputdir
 } else {
   dir.create (paste(c(datapath,"/output"),collapse=""))

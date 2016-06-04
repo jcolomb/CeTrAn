@@ -22,8 +22,8 @@ call. = FALSE, domain = NA)
 options("digits.secs" = 3)
 	   
 # loads the analysis functions
-source("functions/utils.r")
-source("functions/newfct.r")
-source("functions/functions.r")
-source("functions/plot_functions.r")
-# source("functions/defaultvalues.r")
+source("functions/utils.r", local=TRUE)
+source("functions/newfct.r", local=TRUE)
+source("functions/functions.r", local=TRUE)
+source("functions/plot_functions.r", local=TRUE)
+# source("functions/defaultvalues.r" local=TRUE)
