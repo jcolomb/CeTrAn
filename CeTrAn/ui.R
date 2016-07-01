@@ -4,7 +4,7 @@ require (rhandsontable)
 require (shinyFiles)
 # Define UI for dataset viewer application
 fluidPage(
-  titlePanel("Trajectory Analysis for Multiple Buridan Experiments - All together"),
+  titlePanel("Trajectory Analysis for Multiple Buridan Experiments"),
   helpText("Creates some general statistical plots on multiple flies tracked in the
            Buridan Experiment. Includes speed, activity, distance and walks between the
            stripes, occupancy plots and activity time, pauses, as well as walking
@@ -14,10 +14,10 @@ fluidPage(
                 sidebarPanel(
                   textInput("outputfile", "Name of output file:", "output"),
                   shinyDirButton("g_outputdir", "Output Directory", 
-                                 "Choose the output directory:", FALSE),
+                                 "Choose the output directory:"),
                   h1("Input"),
                   shinyDirButton("g_inputdir", "Input Directory", 
-                                 "Choose the input directory containing all the xml and data files:", FALSE),
+                                 "Choose the input directory containing all the xml and data files:"),
                   shinyFilesButton("g_filetablename", "File Table",
                                    "Select a tab seperated file containing the matrix:", FALSE),
                   checkboxInput("g_open_pdf", "Open plot in default pdf-viewer", FALSE),
@@ -51,10 +51,12 @@ fluidPage(
                   
                 ),
                 mainPanel(
-                  textOutput("filepaths"),
-                  textOutput("directorypath"),
-                  textOutput("test"),
-                  downloadLink("pdflink")
+                  #textOutput("filepaths"),
+                  #textOutput("directorypath"),
+                  h2("rgghome"),
+                  textOutput("test")#,
+                 # dataTableOutput("group"),
+                  # downloadLink("pdflink")
                 )
   
 ))
