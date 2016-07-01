@@ -54,9 +54,9 @@ fluidPage(
                   #textOutput("filepaths"),
                   #textOutput("directorypath"),
                   h2("rgghome"),
-                  textOutput("test")#,
+                  textOutput("test"),
                  # dataTableOutput("group"),
-                  # downloadLink("pdflink")
+                   downloadLink("pdflink")
                 )
   
 ))
