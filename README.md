@@ -6,8 +6,11 @@ CeTrAn is a R script to analyse trajectory data, at the moment only data obtaine
 The progam used to work with rgg, but was recently moved to shiny. You need to install Rstudio and open the server.r file and click the run app button.
 
 To run the latest version, you can also open R and run:
+```{r}
 library(shiny)
 shiny::runGitHub('CeTrAn', 'jcolomb')
+```
+
 But this will download the complete app, including the test data.
 
 
