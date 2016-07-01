@@ -4,11 +4,17 @@ require (rhandsontable)
 require (shinyFiles)
 # Define UI for dataset viewer application
 fluidPage(
-  titlePanel("Trajectory Analysis for Multiple Buridan Experiments"),
-  helpText("Creates some general statistical plots on multiple flies tracked in the
-           Buridan Experiment. Includes speed, activity, distance and walks between the
-           stripes, occupancy plots and activity time, pauses, as well as walking
-           direction deviation from going to the stripe (histogram and mean of medians)"),
+  titlePanel("Centroid Trajectory Analysis (made for Multiple Buridan Experiments)"),
+  tags$div("CeTrAn was mainly developed by Dr. Julien Colomb. Issues should be reported on",
+           tags$a(href="https://github.com/jcolomb/Cetran/issues", "the github page")
+  ),
+  helpText("This app creates some general statistical plots on multiple flies tracked in the
+           Buridan Experiment. Please use the butons on the left to set the path to the folder containing the data and 
+           and choose the file containing the grouping information (2 tab separated columns with the path to the 
+           xml file and the goup name for that fly). Then set the variables and click the GO button. Follow the progress
+           of the analysis on the R console."),
+  
+
   sidebarLayout(position = "left",
                 
                 sidebarPanel(
@@ -49,13 +55,17 @@ fluidPage(
                   checkboxInput("g_pca", "PCA", TRUE),
                   checkboxInput("g_individual", "do individual analyses (other pdf file)", TRUE)
                   
-                ),
+                , width = 4),
                 mainPanel(
+                  
                   #textOutput("filepaths"),
                   #textOutput("directorypath"),
-                  h2("rgghome"),
-                  textOutput("test"),
-                 # dataTableOutput("group"),
+                  helpText("the first column must show the path to the xml file from th folder entered as input folder, the second column is the group names"),
+                  dataTableOutput("group"),
+                 actionButton("goButton", "Go!"),
+                 h2("you will find the analysis in a pdf here:"),
+                 textOutput("test"),
+                 
                    downloadLink("pdflink")
                 )
   

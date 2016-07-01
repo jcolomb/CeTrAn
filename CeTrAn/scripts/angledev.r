@@ -1,4 +1,4 @@
-
+message("starting angledev")
 
 ### number of walks between stripes
 #compute walks for each individum

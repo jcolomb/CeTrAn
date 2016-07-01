@@ -3,6 +3,7 @@ require(rhandsontable)
 require(tidyr)
 
 rgghome <-  getwd()
+inshinyapp <-TRUE
 
 shinyServer(function(input, output, session) {
   
@@ -53,11 +54,15 @@ shinyServer(function(input, output, session) {
      filepath
    })
    
-   output$test <- renderPrint({ fileOutput()})
+   #output$test <- renderPrint({ fileOutput()})
  
   # output$test <- renderPrint({parseFilePaths(volumes,input$g_inputdir)})
   
-  #output$group <- renderDataTable( input$g_inputdir)
+  output$group <- renderDataTable({
+    g_filetablename <- as.character(parseFilePaths(volumes, input$g_filetablename)$datapath) 
+    g_filetable <- read.csv(g_filetablename,sep = "\t", header=FALSE)
+    g_filetable 
+  })
   
   
   
@@ -68,7 +73,7 @@ shinyServer(function(input, output, session) {
     g_filetable <- read.csv(g_filetablename,sep = "\t", header=FALSE)
     g_duration_slider <- input$g_duration_slider
     g_bin_size <- input$g_bin_size
-    g_suppress_paints <- input$g_supress_paints
+    g_supress_paints <- input$g_supress_paints
     g_treshold <- input$g_treshold
     g_general <- input$g_general
     g_roundarena <- input$g_roundarena
@@ -87,18 +92,23 @@ shinyServer(function(input, output, session) {
     
     # call main program
     source("CeTrAn_norgg_xml.r", local=TRUE)
-    
+    bla
 
   })
-
-  output$pdflink <- downloadHandler(
-    filename <- input$outputfile,
-    content <- function(file) {
-      DataOutput()
-      file.copy(bla, file)
-    }
-  )
-    
+  
+  output$test <- renderPrint({
+    if (input$goButton >0) {DataOutput()}else {"not run"}
+    })
+  
+  
+#    output$pdflink <- downloadHandler(
+#      filename <- "myplot.pdf",
+#      content <- function(file) {
+#        file.copy(output$test, file)
+#        })
+#   
+#   )
+#     
   
 
  

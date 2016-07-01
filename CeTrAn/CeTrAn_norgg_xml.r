@@ -113,7 +113,6 @@ group_ids = levels(factor(id_table$group))
 print(outputpath)
 # write to
 message("second")
-message (add_table)
 setwd(outputpath)
 message(paste(c("Writing output to ",outputpath),collapse=""))
 

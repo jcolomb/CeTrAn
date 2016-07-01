@@ -22,22 +22,25 @@ if (CENTERHERE) {
 # check if a session for these objects allready exists
 sessname = paste (g_treshold,".last_session.RData",sep="_")
 last_session_path <- paste(outputpath,sessname,sep="/")
-if (file.exists(last_session_path)) {
-	nenv <- new.env(parent = baseenv())
-	load(last_session_path,nenv) 
-
-	if (length(nenv$fileName)==length(fileName)&&all(nenv$fileName==fileName)&&nenv$datapath==datapath&&all(as.character(nenv$group)==as.character(group))) {
-		load(last_session_path,.GlobalEnv)
-		message("Trajectorie restored from previous Session")
-		load <- FALSE
-	}
-	rm(nenv)
+if (!inshinyapp){
+  if (file.exists(last_session_path)) {
+    nenv <- new.env(parent = baseenv())
+    load(last_session_path,nenv) 
+    
+    if (length(nenv$fileName)==length(fileName)&&all(nenv$fileName==fileName)&&nenv$datapath==datapath&&all(as.character(nenv$group)==as.character(group))) {
+      load(last_session_path,.GlobalEnv)
+      message("Trajectorie restored from previous Session")
+      load <- FALSE
+    }
+    rm(nenv)
+  }
 }
+
 	
 if (load) {
 	
 	message("Loading Files")
-	pg.bar <- txtProgressBar(min = 0, max = length(fileName), initial = 0, char = "=",style = 3)
+	#pg.bar <- txtProgressBar(min = 0, max = length(fileName), initial = 0, char = "=",style = 3)
 	
 	# load data
 	for (i in c(1:length(params))) {
@@ -47,11 +50,11 @@ if (load) {
 			traj <- c(traj,new_traj)
 		else
 			traj <- new_traj
-		setTxtProgressBar(pg.bar, i)
+	#	setTxtProgressBar(pg.bar, i)
 		
 	}
 	
-	close(pg.bar)
+	#close(pg.bar)
 }	
 
 #create id_table

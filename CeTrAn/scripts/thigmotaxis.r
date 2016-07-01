@@ -1,5 +1,5 @@
 ## caculate thigmotaxis/centrophobisms indices
-
+message ("starting thigmotaxis")
 c.thigm<- function(traj,env) {
 	
 	if (!inherits(env,"bur.env"))
