@@ -35,7 +35,7 @@
 ##############
 # setwd(rgghome)
 
-
+message("start")
 # load libs and functions
 source("functions/include.r", local=TRUE)
 
@@ -49,6 +49,8 @@ if (ncol(g_filetable)!=2)
 # determine path
 datapath = g_inputdir
 
+message(datapath)
+
 # set output dir, need to create the directory if not existant
 outputpath = ""
 if (exists("g_outputdir")) {
@@ -58,17 +60,21 @@ if (exists("g_outputdir")) {
 	outputpath = paste(c(datapath,"/output"),collapse="")	
 }
 
+
+
 ##fordebug
+message("1st")
 setwd(outputpath)
 save.image(file= paste(outputfile,"_workspace.rdata"))
 setwd(rgghome)
+message("2nd")
 
 #load fly data
 fileName = g_filetable[,1]
 group = g_filetable[,2]
 
 # takes fileName, datapath and group
-source("scripts/MultipleFilesLoader.r")
+source("scripts/MultipleFilesLoader.r", local=TRUE)
 # "traj" contains the trajectories, "env[[i]]" the area informations
 # "params[[i]]" the Experiment Parameters and Informations
 # id_table the animals and corresponding groups
@@ -82,7 +88,7 @@ source("scripts/MultipleFilesLoader.r")
 ### compute and plot data
 
 
-suppressWarnings(dir.create(outputpath))
+#suppressWarnings(dir.create(outputpath))
 
 
 ###########
@@ -91,20 +97,23 @@ suppressWarnings(dir.create(outputpath))
 
 #individual traces first#
 
-setwd(rgghome)
+#setwd(rgghome)
 
 
 
 # load libs and functions again to avoid any old function to be present
 #source("functions/include.r")
 if (g_individual) {
-	source ("scripts/singleflyoutputs.r")}
+	source ("scripts/singleflyoutputs.r", local=TRUE)}
 
-source ("scripts/expand_f_table.r")
+source ("scripts/expand_f_table.r", local=TRUE)
 
 group_ids = levels(factor(id_table$group))
 
+print(outputpath)
 # write to
+message("second")
+message (add_table)
 setwd(outputpath)
 message(paste(c("Writing output to ",outputpath),collapse=""))
 
@@ -113,47 +122,47 @@ pdf(bla)
 
 
 setwd(rgghome)
-source ("scripts/samplesize.r")
-source ("scripts/exp_length.r")
+source ("scripts/samplesize.r", local=TRUE)
+source ("scripts/exp_length.r", local=TRUE)
 if (g_general) {
-	source ("scripts/general.r")
-	source ("scripts/straightness.r")
+	source ("scripts/general.r", local=TRUE)
+	source ("scripts/straightness.r", local=TRUE)
 	
 	
-	source ("scripts/activity_martin.r")
+	source ("scripts/activity_martin.r", local=TRUE)
 
-	source ("scripts/activity_log.r")
+	source ("scripts/activity_log.r", local=TRUE)
 
 	
 }
 
 if (g_roundarena) {
-source ("scripts/thigmotaxis.r")
+source ("scripts/thigmotaxis.r", local=TRUE)
 }
 
 if (g_stripes_deviation){
-source ("scripts/angledev.r")
+source ("scripts/angledev.r", local=TRUE)
 
 }
-source ("scripts/saveworkspace.r")
+source ("scripts/saveworkspace.r", local=TRUE)
 #
 
 setwd(rgghome)
-source ("scripts/changef_table.r")
-source ("scripts/pdfoutput.r")
+source ("scripts/changef_table.r", local=TRUE)
+source ("scripts/pdfoutput.r", local=TRUE)
 
 
 if (g_occupancy) {
-	source ("scripts/occupancy.r")
+	source ("scripts/occupancy.r", local=TRUE)
 	}
 
 
-source ("scripts/saveworkspace.r")
+source ("scripts/saveworkspace.r", local=TRUE)
 
-if (g_pca) {source ("scripts/pca.r")
+if (g_pca) {source ("scripts/pca.r", local=TRUE)
 	}
 
-source ("scripts/saveworkspace2.r")
+source ("scripts/saveworkspace2.r", local=TRUE)
 
 
 	
@@ -166,19 +175,19 @@ g = dev.off()
 
 
 
-
-# open pdf
-setwd(outputpath)
-plot_path = paste(c(getwd(),"/",bla),collapse="")
-if (g_open_pdf) {
-	if (.Platform$OS.type=="Linux")
-		system(paste(c("gnome-open",plot_path),collapse=" "))
-	else
-		system(paste(c("open",plot_path),collapse=" "))
-}
-
-
-
-
-
-
+# 
+# # open pdf
+# setwd(outputpath)
+# plot_path = paste(c(getwd(),"/",bla),collapse="")
+# if (g_open_pdf) {
+# 	if (.Platform$OS.type=="Linux")
+# 		system(paste(c("gnome-open",plot_path),collapse=" "))
+# 	else
+# 		system(paste(c("open",plot_path),collapse=" "))
+# }
+# 
+# 
+# 
+# 
+# 
+# 
